@@ -5,55 +5,56 @@ Convert the documentation from the JSON format to markdown.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
 
 
-def format(doc):
-    """ Compose the markdown document from the documentation tree structure.
+def format(doc, level):
+    """Format the documentation"""
 
-    It just copy verbatim the text chunks, and add a header for each node.
-    There are two exceptions:
-    * Any text chunk associated to a programming language is enclosed in a code block.
-    """
-    yield from _format(doc["doc"], 1)
-    yield "\n\n"
-    for text, (destination, title) in collect_refs(doc["doc"]).items():
-        yield f'[`{text}`]: #{destination} "{title}"\n'
-        yield f'[{text}]: #{destination} "{title}"\n'
+    def format_node(node, level, prefix):
+        """Format a node"""
+        if not node["text"]:
+            return
+        id = f"{prefix}{node['name']}"
+        yield f"{'#' * level} {node['type']} {id}\n"
+        for lang, chunk in node["text"]:
+            if lang:
+                yield f"```{lang}\n{chunk}```\n"
+            else:
+                yield chunk
+        yield "\n\n"
+        for node in node["content"]:
+            yield from format_node(node, level + 1, f"{id}.")
 
-
-def _format(node, level):
-    if not node["text"]:
-        return
-    yield f"{'#' * level} {node['type']} `{node['name']}`\n"
-    for lang, chunk in node["text"]:
-        if lang:
-            yield f"```{lang}\n{chunk}```\n"
-        else:
-            yield chunk
-    yield "\n\n"
-    for node in node["content"]:
-        yield from _format(node, level + 1)
-
-
-def collect_refs(doc):
-    """ Collect all the symbols that can be referenced in the documentation.
+    def format_refs(refs):
+        """Format the references"""
+        yield f"<!-- references -->\n"
+        for text, (destination, title) in refs.items():
+            yield f'[`{text}`]: #{destination} "{title}"\n'
+            yield f'[{text}]: #{destination} "{title}"\n'
     
-    A symbol can be referenced if it has an entry in the documentation.
-    """
+    for node in doc["content"]:
+        yield from format_node(node, level, "")
+        yield "\n"
+    
+    yield from format_refs(collect_refs(doc))
+
+
+def collect_refs(node):
     refs = {}
-    _collect_refs(doc, refs)
+    for node in node["content"]:
+        _collect_refs(node, refs, "")
     return refs
 
 
-def _collect_refs(node, refs):
-    if node["text"]:
-        refs[node["name"]] = (f"{node['type']}-{node['name']}".lower(), f"{node['type']} {node['name']}")
+def _collect_refs(node, refs, prefix):
+    id = f"{prefix}{node['name']}"
+    refs[id] = (f"{node['type']}-{id}".replace(".", "-").lower(), f"{node['type']} {node['name']}")
     for node in node["content"]:
-        _collect_refs(node, refs)
+        _collect_refs(node, refs, f"{id}.")
 
 
 @contextmanager
@@ -80,10 +81,14 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    parser = argparse.ArgumentParser("Format documentation as markdown")
-    parser.add_argument("-i", "--input", type=Path, default=None)
-    parser.add_argument("-o", "--output", type=Path, default=None)
+    parser = argparse.ArgumentParser("Generate markdown documentation from JSON")
+    parser.add_argument("-i", "--input", type=Path, default=None,
+                        help="Input file. If not specified, the input is read from stdin")
+    parser.add_argument("-o", "--output", type=Path, default=None,
+                        help="Output file. If not specified, the output is written to stdout")
+    parser.add_argument("-s", "--start", type=int, default=1,
+                        help="Start level for the headers")
     args = parser.parse_args()
     
     with reader(args.input) as r, writer(args.output) as w:
-        w.writelines(format(json.load(r)))
+        w.writelines(format(json.load(r), args.start))

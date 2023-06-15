@@ -7,7 +7,7 @@ labels this code snippet as Python code.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __license__ = "BSD 3-Clause Clear License"
 
 import ast
@@ -72,20 +72,11 @@ def process_node(node):
 
 
 @contextmanager
-def reader(input, module_name=None):
-    if input is None:
-        yield sys.stdin, module_name or "<stdin>"
-    else:
-        with input.open("r") as f:
-            yield f, module_name or input.stem
-
-
-@contextmanager
 def writer(output):
     if output is None:
         yield sys.stdout
     else:
-        with output.open("w") as f:
+        with open(output, "w", encoding="utf-8") as f:
             yield f
 
 
@@ -96,18 +87,28 @@ if __name__ == "__main__":
     
 
     parser = argparse.ArgumentParser("Extract docstrings from Python")
-    parser.add_argument("-i", "--input", type=Path, default=None)
-    parser.add_argument("-o", "--output", type=Path, default=None)
-    parser.add_argument("-m", "--module-name", type=str, default=None)
+    parser.add_argument("inputs", metavar="INPUT[:NAME]", nargs="+",
+                        help="Input file. If the input is followed by a colon, the text before the colon is used as the module name")
+    parser.add_argument("-o", "--output", default=None,
+                        help="Output file. If not specified, the output is written to stdout")
+    parser.add_argument("-e", "--encoding", default="utf-8",
+                        help="Encoding of the input files")
     args = parser.parse_args()
 
-    with reader(args.input, args.module_name) as (f, module_name):
-        doc = process_node(ast.parse(f.read()))
-        doc["name"] = module_name
-        doc = {
-            "version": __version__,
-            "doc": doc,
-        }
+    doc = {
+        "version": __version__,
+        "content": [],
+    }
+    for input in args.inputs:
+        if ":" in input:
+            input, module_name = input.split(":", 1)
+        else:
+            input = Path(input)
+            module_name = input.stem
+        with open(input, "r", encoding=args.encoding) as f:
+            node = process_node(ast.parse(f.read()))
+            node["name"] = module_name
+            doc["content"].append(node)
 
     with writer(args.output) as f:
         json.dump(doc, f, indent=4)
