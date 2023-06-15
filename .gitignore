@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Editors and IDEs
+.vscode
+
+# Mac files
+.DS_Store
+
+# mypy
+.mypy_cache/
