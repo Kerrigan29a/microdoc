@@ -1,4 +1,4 @@
-# μdoc - Another minimalistic documentation generator
+# μdoc - A minimalistic documentation generator
 
 This is just a set of scripts to generate documentation from any programming language.
 The idea is to divide the process in two steps:
@@ -9,7 +9,7 @@ The idea is to divide the process in two steps:
 2. Format the documentation in Markdown. The script implementing this part is `doc2md`.
    It just copy verbatim the documentation from the JSON file to the Markdown file.
    The only exceptions to this rule are the following:
-   * Every entry in the JSON file is a section in the Markdown file. The script formats the heading.
+   * Every element in the JSON file is a section in the Markdown file. The script formats the heading.
    * When a text chunk is marked as code, the script formats it as a fenced code block.
    * For every composed Markdown file, the script injects at the end all known [link destinations](https://spec.commonmark.org/0.30/#link-destination).
    Any additional formatting should be done in the documentation itself.
