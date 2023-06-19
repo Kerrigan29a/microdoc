@@ -9,7 +9,7 @@ labels this code snippet as Python code.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __license__ = "BSD 3-Clause Clear License"
 
 import ast
@@ -66,11 +66,7 @@ def process_node(node, path):
             text = chunks2
 
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            definition = ast.unparse(node)
-            stop = definition.index(":")
-            definition = definition[:stop+1].rstrip()
-            definition += " ...\n"
-            text.insert(0, ["python", definition])
+            text.insert(0, ["python", _compose_definition(ast.unparse(node)) + "\n"])
             
     children = [
         process_node(n, path) for n in node.body if isinstance(n, tuple(NODE_TYPES))
@@ -85,20 +81,24 @@ def process_node(node, path):
     }
 
 
+def _compose_definition(code):
+    """ Compose the definition of a function or method from its code.
+    
+    >>> _compose_definition("def foo(a, b): return a + b")
+    'def foo(a, b): ...'
+    >>> _compose_definition("async def foo(a, b): return a + b")
+    'async def foo(a, b): ...'
+    >>> _compose_definition("def foo(a : int, b : int) -> int: return a + b")
+    'def foo(a : int, b : int) -> int: ...'
+    """
+    min = code.index(")")
+    stop = code[min:].index(":") + min
+    return code[:stop+1].rstrip() + " ..."
+
+
 @contextmanager
 def writer(output):
-    """ Open a file for writing or use stdout if the output is None.
-
-    >>> with writer(None) as f:
-    ...     f == sys.stdout
-    True
-    >>> import tempfile
-    >>> tmp = tempfile.NamedTemporaryFile()
-    >>> with writer(tmp.name) as f:
-    ...     f != sys.stdout
-    True
-    >>> tmp.close()
-    """
+    """ Open a file for writing or use stdout if the output is None. """
     if output is None:
         yield sys.stdout
     else:

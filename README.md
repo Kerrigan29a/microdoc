@@ -48,25 +48,28 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L89)
+### Function [py2doc._compose_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L84)
+```python
+def _compose_definition(code): ...
+```
+Compose the definition of a function or method from its code.
+
+```python
+>>> _compose_definition("def foo(a, b): return a + b")
+'def foo(a, b): ...'
+>>> _compose_definition("async def foo(a, b): return a + b")
+'async def foo(a, b): ...'
+>>> _compose_definition("def foo(a : int, b : int) -> int: return a + b")
+'def foo(a : int, b : int) -> int: ...'
+```
+
+
+### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L100)
 ```python
 @contextmanager
 def writer(output): ...
 ```
-Open a file for writing or use stdout if the output is None.
-
-```python
->>> with writer(None) as f:
-...     f == sys.stdout
-True
->>> import tempfile
->>> tmp = tempfile.NamedTemporaryFile()
->>> with writer(tmp.name) as f:
-...     f != sys.stdout
-True
->>> tmp.close()
-```
-
+Open a file for writing or use stdout if the output is None. 
 
 
 ## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L1)
@@ -142,6 +145,8 @@ Open the output file, or stdout if not specified.
 [`py2doc`]: #module-py2doc "Module py2doc"
 [py2doc.process_node]: #function-py2doc-process_node "Function process_node"
 [`py2doc.process_node`]: #function-py2doc-process_node "Function process_node"
+[py2doc._compose_definition]: #function-py2doc-_compose_definition "Function _compose_definition"
+[`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
 [py2doc.writer]: #function-py2doc-writer "Function writer"
 [`py2doc.writer`]: #function-py2doc-writer "Function writer"
 [doc2md]: #module-doc2md "Module doc2md"
