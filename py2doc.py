@@ -1,8 +1,8 @@
 """
 Extract the docstrings from a Python file and store them in a JSON file.
-This script does't care the format of the docstrings, it just extract them.
-The only exception to this rule is when it finds a doctest, in which case it
-labels this code snippet as Python code.
+This script doesn't care about the format of the docstrings, it just extracts
+them. The only exception to this rule is when it finds a doctest, in which case
+it labels this code snippet as Python code.
 
 {{PY2DOC_USAGE}}
 """

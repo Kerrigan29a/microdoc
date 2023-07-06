@@ -1,24 +1,29 @@
 # μdoc - A minimalistic documentation generator
 
 This is just a set of scripts to generate documentation from any programming language.
-The idea is to divide the process in two steps:
+The idea is to divide the process into two steps:
 
-1. Extract the documentation from the source code and store it in a JSON file.
+1. Extract the documentation from the source code and save it to a JSON file.
    The scripts implementing this part should be named `x2doc`, where `x` is the programming language.
    At the moment, only `py2doc` is implemented.
+
 2. Format the documentation in Markdown. The script implementing this part is `doc2md`.
-   It just copy verbatim the documentation from the JSON file to the Markdown file.
-   The only exceptions to this rule are the following:
-   * Every element in the JSON file is a section in the Markdown file. The script formats the heading.
-   * When a text chunk is marked as code, the script formats it as a fenced code block.
-   * For every composed Markdown file, the script injects at the end all known [link destinations](https://spec.commonmark.org/0.30/#link-destination).
+   It just copies verbatim the documentation from the JSON file to the Markdown file.
+   The only exceptions to this rule are the following ones:
+
+   * Every element in the JSON file is a section of the Markdown file. The script formats the heading.
+
+   * When a text chunk is marked as code, the script formats it as a [fenced code block](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) with [syntax highlighting](https://www.markdownguide.org/extended-syntax/#syntax-highlighting).
+
+   * For each generated Markdown file, the script injects all known [link destinations](https://spec.commonmark.org/0.30/#link-destination) at the end of the file.
+   
    Any additional formatting should be done in the documentation itself.
 
 ## Module [py2doc](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L1)
 Extract the docstrings from a Python file and store them in a JSON file.
-This script does't care the format of the docstrings, it just extract them.
-The only exception to this rule is when it finds a doctest, in which case it
-labels this code snippet as Python code.
+This script doesn't care about the format of the docstrings, it just extracts
+them. The only exception to this rule is when it finds a doctest, in which case
+it labels this code snippet as Python code.
 
 ```
 usage: py2doc.py [-h] [-o OUTPUT] [-e ENCODING]
