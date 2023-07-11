@@ -7,7 +7,7 @@ Format the documentation from JSON to markdown.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
@@ -27,11 +27,12 @@ def format(doc, level, url=None):
             yield f"{'#' * level} {node['type']} [{id}]({url.format(path=path, line=line)})\n"
         else:
             yield f"{'#' * level} {node['type']} {id}\n"
-        for lang, chunk in node["text"]:
+        for indent, lang, chunk in node["text"]:
+            indent = " " * indent
             if lang:
-                yield f"```{lang}\n{chunk}```\n"
-            else:
-                yield chunk
+                chunk = f"```{lang}\n{chunk}```\n"
+            chunk = indent + chunk.replace("\n", f"\n{indent}")
+            yield chunk
         yield "\n\n"
         for node in node["content"]:
             yield from format_node(node, level + 1, f"{id}.")

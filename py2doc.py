@@ -9,7 +9,7 @@ it labels this code snippet as Python code.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.3.1"
+__version__ = "0.4.0"
 __license__ = "BSD 3-Clause Clear License"
 
 import ast
@@ -45,9 +45,9 @@ def process_node(node, path):
                 continue
             if isinstance(chunk, Example):
                 source = ">>> " + chunk.source.rstrip().replace("\n", "\n... ")
-                chunks1.append(["python", f"{source}\n{chunk.want}"])
+                chunks1.append([chunk.indent, "python", f"{source}\n{chunk.want}"])
             else:
-                chunks1.append([None, chunk])
+                chunks1.append([0, None, chunk])
         if len(chunks1) == 0:
             raise ValueError("No chunks")
         elif len(chunks1) == 1:
@@ -56,8 +56,8 @@ def process_node(node, path):
             last = chunks1[0]
             chunks2 = []
             for chunk in chunks1[1:]:
-                if chunk[0] == last[0]:
-                    last[1] += chunk[1]
+                if chunk[0] == last[0] and chunk[1] == last[1]:
+                    last[2] += chunk[2]
                 else:
                     chunks2.append(last)
                     last = chunk
@@ -66,7 +66,7 @@ def process_node(node, path):
             text = chunks2
 
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            text.insert(0, ["python", _compose_definition(ast.unparse(node)) + "\n"])
+            text.insert(0, [0, "python", _compose_definition(ast.unparse(node)) + "\n"])
             
     children = [
         process_node(n, path) for n in node.body if isinstance(n, tuple(NODE_TYPES))

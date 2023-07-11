@@ -110,7 +110,7 @@ def format_node(node, level, prefix): ...
 ```
 Format a node. 
 
-#### Function [doc2md.format.format_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L39)
+#### Function [doc2md.format.format_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L40)
 ```python
 def format_refs(refs): ...
 ```
@@ -119,7 +119,7 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.collect_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L57)
+### Function [doc2md.collect_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L58)
 ```python
 def collect_refs(node): ...
 ```
@@ -130,14 +130,14 @@ To compose the link, it uses the standard GitHub approach:
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.    
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L80)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L81)
 ```python
 @contextmanager
 def reader(input): ...
 ```
 Open the input file, or stdin if not specified. 
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L90)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L91)
 ```python
 @contextmanager
 def writer(output): ...
