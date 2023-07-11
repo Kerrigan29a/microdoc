@@ -7,7 +7,7 @@ Format the documentation from JSON to markdown.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.4.0"
+__version__ = "0.4.2"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
@@ -21,12 +21,13 @@ def format(doc, level, url=None):
         nonlocal url
         if not node["text"]:
             return
-        id = f"{prefix}{node['name']}"
+        header = f"{'#' * level} {node['type']}"
+        id = f"{prefix}{escape_markdown(node['name'])}"
         if url:
             path, line = node["location"]
-            yield f"{'#' * level} {node['type']} [{id}]({url.format(path=path, line=line)})\n"
+            yield f"{header} [{id}]({url.format(path=path, line=line)})\n"
         else:
-            yield f"{'#' * level} {node['type']} {id}\n"
+            yield f"{header} {id}\n"
         for indent, lang, chunk in node["text"]:
             indent = " " * indent
             if lang:
@@ -53,6 +54,11 @@ def format(doc, level, url=None):
         yield "\n"
     
     yield from format_refs(collect_refs(doc))
+
+
+def escape_markdown(text):
+    """ Escape the markdown characters. """
+    return text.replace("_", "\\_").replace("*", "\\*").replace("`", "\\`")
 
 
 def collect_refs(node):

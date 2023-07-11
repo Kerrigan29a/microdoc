@@ -44,7 +44,7 @@ options:
                         Encoding of the input files
 
 ```
-### Function [py2doc.process_node](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L29)
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L29)
 ```python
 def process_node(node, path): ...
 ```
@@ -53,7 +53,7 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc._compose_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L84)
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L84)
 ```python
 def _compose_definition(code): ...
 ```
@@ -104,13 +104,13 @@ def format(doc, level, url=None): ...
 ```
 Format the documentation.
 
-#### Function [doc2md.format.format_node](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L19)
+#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L19)
 ```python
 def format_node(node, level, prefix): ...
 ```
 Format a node. 
 
-#### Function [doc2md.format.format_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L40)
+#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L41)
 ```python
 def format_refs(refs): ...
 ```
@@ -119,7 +119,13 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.collect_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L58)
+### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L59)
+```python
+def escape_markdown(text): ...
+```
+Escape the markdown characters. 
+
+### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L64)
 ```python
 def collect_refs(node): ...
 ```
@@ -130,14 +136,14 @@ To compose the link, it uses the standard GitHub approach:
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.    
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L81)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L87)
 ```python
 @contextmanager
 def reader(input): ...
 ```
 Open the input file, or stdin if not specified. 
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L91)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L97)
 ```python
 @contextmanager
 def writer(output): ...
@@ -162,6 +168,8 @@ Open the output file, or stdout if not specified.
 [`doc2md.format.format_node`]: #function-doc2md-format-format_node "Function format_node"
 [doc2md.format.format_refs]: #function-doc2md-format-format_refs "Function format_refs"
 [`doc2md.format.format_refs`]: #function-doc2md-format-format_refs "Function format_refs"
+[doc2md.escape_markdown]: #function-doc2md-escape_markdown "Function escape_markdown"
+[`doc2md.escape_markdown`]: #function-doc2md-escape_markdown "Function escape_markdown"
 [doc2md.collect_refs]: #function-doc2md-collect_refs "Function collect_refs"
 [`doc2md.collect_refs`]: #function-doc2md-collect_refs "Function collect_refs"
 [doc2md.collect_refs.collect]: #function-doc2md-collect_refs-collect "Function collect"
