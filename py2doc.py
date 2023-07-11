@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2023 Javier Escalada Gómez
+# All rights reserved.
+# License: BSD 3-Clause Clear License (see LICENSE for details)
+
 """
 Extract the docstrings from a Python file and store them in a JSON file.
 This script doesn't care about the format of the docstrings, it just extracts
