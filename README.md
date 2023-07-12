@@ -12,18 +12,13 @@ The idea is to divide the process into two steps:
    The only exceptions to this rule are the following ones:
 
    * Every element in the JSON file is a section of the Markdown file. The script formats the heading.
-
-   * When a text chunk is marked as code, the script formats it as a [fenced code block](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) with [syntax highlighting](https://www.markdownguide.org/extended-syntax/#syntax-highlighting).
-
    * For each generated Markdown file, the script injects all known [link destinations](https://spec.commonmark.org/0.30/#link-destination) at the end of the file.
    
    Any additional formatting should be done in the documentation itself.
 
-## Module [py2doc](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L1)
-Extract the docstrings from a Python file and store them in a JSON file.
-This script doesn't care about the format of the docstrings, it just extracts
-them. The only exception to this rule is when it finds a doctest, in which case
-it labels this code snippet as Python code.
+# Command line usage
+
+## py2doc
 
 ```
 usage: py2doc.py [-h] [-o OUTPUT] [-e ENCODING]
@@ -42,43 +37,9 @@ options:
                         to stdout
   -e ENCODING, --encoding ENCODING
                         Encoding of the input files
-
-```
-### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L29)
-```python
-def process_node(node, path): ...
-```
-Extract the information from an AST node.
-
-If the docstring contains doctests, the docstring is split into chunks.
-The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
-
-### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L84)
-```python
-def _compose_definition(code): ...
-```
-Compose the definition of a function or method from its code.
-
-```python
->>> _compose_definition("def foo(a, b): return a + b")
-'def foo(a, b): ...'
->>> _compose_definition("async def foo(a, b): return a + b")
-'async def foo(a, b): ...'
->>> _compose_definition("def foo(a : int, b : int) -> int: return a + b")
-'def foo(a : int, b : int) -> int: ...'
 ```
 
-
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L100)
-```python
-@contextmanager
-def writer(output): ...
-```
-Open a file for writing or use stdout if the output is None. 
-
-
-## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L1)
-Format the documentation from JSON to markdown.
+## doc2md
 
 ```
 usage: doc2md.py [-h] [-i INPUT] [-o OUTPUT] [-l LEVEL] [-u URL]
@@ -96,21 +57,100 @@ options:
   -l LEVEL, --level LEVEL
                         Start level for the headers
   -u URL, --url URL     URL template for the links
+```
+
+## md2html
 
 ```
-### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L16)
+usage: md2html.py [-h] INPUT_FILE.md OUTPUT_FILE.html
+
+Render markdown to html using the GitHub API
+
+positional arguments:
+  INPUT_FILE.md     Input Markdown file
+  OUTPUT_FILE.html  Output HTML file
+
+options:
+  -h, --help        show this help message and exit
+```
+
+# What is `doctest_utils.py` for?
+
+At this moment, [doctest.testmod](https://docs.python.org/3/library/doctest.html#doctest.testmod)
+does not allow to specify a custom [doctesr.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser).
+This is a problem if you want to wrap a doctest example with a [fenced code block](https://spec.commonmark.org/0.30/#fenced-code-blocks).
+
+~~~python
+import doctest
+
+def sum(a, b):
+   """ This function sums two numbers.
+
+   ```python
+   >>> sum(1, 2)
+   3
+   ```
+   """
+   return a + b
+
+result = doctest.testmod()
+exit(int(bool(result.failed)))
+~~~
+
+```
+**********************************************************************
+File "__main__", line 8, in __main__.sum
+Failed example:
+    sum(1, 2)
+Expected:
+    3
+    ```
+Got:
+    3
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__.sum
+***Test Failed*** 1 failures.
+```
+
+To solve this problem, you can use [doctest_utils.MarkdownDocTestParser] through [doctest_utils.testmod].
+
+~~~python
+import doctest
+import doctest_utils
+
+def sum(a, b):
+   """ This function sums two numbers.
+
+   ```python
+   >>> sum(1, 2)
+   3
+   ```
+   """
+   return a + b
+
+parser = doctest_utils.MarkdownDocTestParser()
+result = doctest_utils.testmod(parser=parser)
+exit(int(bool(result.failed)))
+~~~
+
+# Documentation
+## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L1)
+Format the documentation from JSON to markdown.
+
+### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L19)
 ```python
 def format(doc, level, url=None): ...
 ```
 Format the documentation.
 
-#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L19)
+#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L22)
 ```python
 def format_node(node, level, prefix): ...
 ```
 Format a node. 
 
-#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L41)
+#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L39)
 ```python
 def format_refs(refs): ...
 ```
@@ -119,13 +159,13 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L59)
+### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L57)
 ```python
 def escape_markdown(text): ...
 ```
 Escape the markdown characters. 
 
-### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L64)
+### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L62)
 ```python
 def collect_refs(node): ...
 ```
@@ -136,14 +176,14 @@ To compose the link, it uses the standard GitHub approach:
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.    
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L87)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L85)
 ```python
 @contextmanager
 def reader(input): ...
 ```
 Open the input file, or stdin if not specified. 
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L97)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L95)
 ```python
 @contextmanager
 def writer(output): ...
@@ -151,15 +191,72 @@ def writer(output): ...
 Open the output file, or stdout if not specified. 
 
 
+## Module [doctest\_utils](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L1)
+Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
+testing Markdown texts.
+
+### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L23)
+A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
+that removes code blocks from Markdown files before parsing them.
+
+This allows to write Markdown files with code blocks that can be tested with
+[doctest](https://docs.python.org/3/library/doctest.html).
+
+### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L35)
+```python
+def testmod(m=None, name=None, globs=None, verbose=None, report=True, optionflags=0, extraglobs=None, raise_on_error=False, exclude_empty=False, parser=DocTestParser()): ...
+```
+Same as [doctest.testmod](https://docs.python.org/3/library/doctest.html#doctest.testmod)
+but allows to specify a custom DocTestParser.
+
+All `master` related code is removed.
+
+
+
+## Module [md2html](https://github.com/kerrigan29a/microdoc/blob/main/md2html.py#L1)
+Convert a markdown file to HTML using GitHub API.
+
+
+## Module [py2doc](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L1)
+Extract the docstrings from a Python file and store them in a JSON file.
+This script doesn't care about the format of the docstrings, it just extracts
+them. The only exception to this rule is when it finds a doctest, in which case
+it labels this code snippet as Python code.
+
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L32)
+```python
+def process_node(node, path): ...
+```
+Extract the information from an AST node.
+
+If the docstring contains doctests, the docstring is split into chunks.
+The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
+
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L59)
+```python
+def _compose_definition(code): ...
+```
+Compose the definition of a function or method from its code.
+
+```python
+>>> _compose_definition("def foo(a, b): return a + b")
+'def foo(a, b): ...'
+>>> _compose_definition("async def foo(a, b): return a + b")
+'async def foo(a, b): ...'
+>>> _compose_definition("def foo(a : int, b : int) -> int: return a + b")
+'def foo(a : int, b : int) -> int: ...'
+```
+
+### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L77)
+```python
+@contextmanager
+def writer(output): ...
+```
+Open a file for writing or use stdout if the output is None. 
+
+
+
 <!-- references -->
-[py2doc]: #module-py2doc "Module py2doc"
-[`py2doc`]: #module-py2doc "Module py2doc"
-[py2doc.process_node]: #function-py2doc-process_node "Function process_node"
-[`py2doc.process_node`]: #function-py2doc-process_node "Function process_node"
-[py2doc._compose_definition]: #function-py2doc-_compose_definition "Function _compose_definition"
-[`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
-[py2doc.writer]: #function-py2doc-writer "Function writer"
-[`py2doc.writer`]: #function-py2doc-writer "Function writer"
 [doc2md]: #module-doc2md "Module doc2md"
 [`doc2md`]: #module-doc2md "Module doc2md"
 [doc2md.format]: #function-doc2md-format "Function format"
@@ -178,3 +275,39 @@ Open the output file, or stdout if not specified.
 [`doc2md.reader`]: #function-doc2md-reader "Function reader"
 [doc2md.writer]: #function-doc2md-writer "Function writer"
 [`doc2md.writer`]: #function-doc2md-writer "Function writer"
+[doctest_utils]: #module-doctest_utils "Module doctest_utils"
+[`doctest_utils`]: #module-doctest_utils "Module doctest_utils"
+[doctest_utils.MarkdownDocTestParser]: #class-doctest_utils-markdowndoctestparser "Class MarkdownDocTestParser"
+[`doctest_utils.MarkdownDocTestParser`]: #class-doctest_utils-markdowndoctestparser "Class MarkdownDocTestParser"
+[doctest_utils.MarkdownDocTestParser.parse]: #function-doctest_utils-markdowndoctestparser-parse "Function parse"
+[`doctest_utils.MarkdownDocTestParser.parse`]: #function-doctest_utils-markdowndoctestparser-parse "Function parse"
+[doctest_utils.testmod]: #function-doctest_utils-testmod "Function testmod"
+[`doctest_utils.testmod`]: #function-doctest_utils-testmod "Function testmod"
+[inject_usage]: #module-inject_usage "Module inject_usage"
+[`inject_usage`]: #module-inject_usage "Module inject_usage"
+[md2html]: #module-md2html "Module md2html"
+[`md2html`]: #module-md2html "Module md2html"
+[md2html.fix_refs]: #function-md2html-fix_refs "Function fix_refs"
+[`md2html.fix_refs`]: #function-md2html-fix_refs "Function fix_refs"
+[md2html.fix_refs.anchor]: #function-md2html-fix_refs-anchor "Function anchor"
+[`md2html.fix_refs.anchor`]: #function-md2html-fix_refs-anchor "Function anchor"
+[md2html.fix_refs.fix_headers]: #function-md2html-fix_refs-fix_headers "Function fix_headers"
+[`md2html.fix_refs.fix_headers`]: #function-md2html-fix_refs-fix_headers "Function fix_headers"
+[md2html.fix_refs.fix_refs]: #function-md2html-fix_refs-fix_refs "Function fix_refs"
+[`md2html.fix_refs.fix_refs`]: #function-md2html-fix_refs-fix_refs "Function fix_refs"
+[md2html.main]: #function-md2html-main "Function main"
+[`md2html.main`]: #function-md2html-main "Function main"
+[md2html.parse_args]: #function-md2html-parse_args "Function parse_args"
+[`md2html.parse_args`]: #function-md2html-parse_args "Function parse_args"
+[py2doc]: #module-py2doc "Module py2doc"
+[`py2doc`]: #module-py2doc "Module py2doc"
+[py2doc.process_node]: #function-py2doc-process_node "Function process_node"
+[`py2doc.process_node`]: #function-py2doc-process_node "Function process_node"
+[py2doc._compose_definition]: #function-py2doc-_compose_definition "Function _compose_definition"
+[`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
+[py2doc.writer]: #function-py2doc-writer "Function writer"
+[`py2doc.writer`]: #function-py2doc-writer "Function writer"
+[tests]: #module-tests "Module tests"
+[`tests`]: #module-tests "Module tests"
+[tests.load_tests]: #function-tests-load_tests "Function load_tests"
+[`tests.load_tests`]: #function-tests-load_tests "Function load_tests"

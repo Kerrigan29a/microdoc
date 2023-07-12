@@ -6,13 +6,11 @@
 
 """
 Format the documentation from JSON to markdown.
-
-{{DOC2MD_USAGE}}
 """
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.4.2"
+__version__ = "0.5.0"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
@@ -33,12 +31,7 @@ def format(doc, level, url=None):
             yield f"{header} [{id}]({url.format(path=path, line=line)})\n"
         else:
             yield f"{header} {id}\n"
-        for indent, lang, chunk in node["text"]:
-            indent = " " * indent
-            if lang:
-                chunk = f"```{lang}\n{chunk}```\n"
-            chunk = indent + chunk.replace("\n", f"\n{indent}")
-            yield chunk
+        yield node["text"]
         yield "\n\n"
         for node in node["content"]:
             yield from format_node(node, level + 1, f"{id}.")

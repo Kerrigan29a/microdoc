@@ -12,10 +12,82 @@ The idea is to divide the process into two steps:
    The only exceptions to this rule are the following ones:
 
    * Every element in the JSON file is a section of the Markdown file. The script formats the heading.
-
-   * When a text chunk is marked as code, the script formats it as a [fenced code block](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) with [syntax highlighting](https://www.markdownguide.org/extended-syntax/#syntax-highlighting).
-
    * For each generated Markdown file, the script injects all known [link destinations](https://spec.commonmark.org/0.30/#link-destination) at the end of the file.
    
    Any additional formatting should be done in the documentation itself.
 
+# Command line usage
+
+## py2doc
+
+{{PY2DOC_USAGE}}
+
+## doc2md
+
+{{DOC2MD_USAGE}}
+
+## md2html
+
+{{MD2HTML_USAGE}}
+
+# What is `doctest_utils.py` for?
+
+At this moment, [doctest.testmod](https://docs.python.org/3/library/doctest.html#doctest.testmod)
+does not allow to specify a custom [doctesr.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser).
+This is a problem if you want to wrap a doctest example with a [fenced code block](https://spec.commonmark.org/0.30/#fenced-code-blocks).
+
+~~~python
+import doctest
+
+def sum(a, b):
+   """ This function sums two numbers.
+
+   ```python
+   >>> sum(1, 2)
+   3
+   ```
+   """
+   return a + b
+
+result = doctest.testmod()
+exit(int(bool(result.failed)))
+~~~
+
+```
+**********************************************************************
+File "__main__", line 8, in __main__.sum
+Failed example:
+    sum(1, 2)
+Expected:
+    3
+    ```
+Got:
+    3
+**********************************************************************
+1 items had failures:
+   1 of   1 in __main__.sum
+***Test Failed*** 1 failures.
+```
+
+To solve this problem, you can use [doctest_utils.MarkdownDocTestParser] through [doctest_utils.testmod].
+
+~~~python
+import doctest
+import doctest_utils
+
+def sum(a, b):
+   """ This function sums two numbers.
+
+   ```python
+   >>> sum(1, 2)
+   3
+   ```
+   """
+   return a + b
+
+parser = doctest_utils.MarkdownDocTestParser()
+result = doctest_utils.testmod(parser=parser)
+exit(int(bool(result.failed)))
+~~~
+
+# Documentation
