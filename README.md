@@ -197,12 +197,16 @@ testing Markdown texts.
 
 ### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L23)
 A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
-that removes code blocks from Markdown files before parsing them.
+that allows use Markdown fences as [doctest](https://docs.python.org/3/library/doctest.html) examples.
 
-This allows to write Markdown files with code blocks that can be tested with
-[doctest](https://docs.python.org/3/library/doctest.html).
+This class just patches the original DocTestParser._EXAMPLE_RE to exclude
+Markdown fences (```` ``` ```` or `~~~`) from the WANT group.
 
-### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L35)
+**NOTE**: This is much better that just removing the fences from the source.
+Removing lines from the source will make useless the line numbers in the
+traceback.
+
+### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L49)
 ```python
 def testmod(m=None, name=None, globs=None, verbose=None, report=True, optionflags=0, extraglobs=None, raise_on_error=False, exclude_empty=False, parser=DocTestParser()): ...
 ```
@@ -279,8 +283,6 @@ Open a file for writing or use stdout if the output is None.
 [`doctest_utils`]: #module-doctest_utils "Module doctest_utils"
 [doctest_utils.MarkdownDocTestParser]: #class-doctest_utils-markdowndoctestparser "Class MarkdownDocTestParser"
 [`doctest_utils.MarkdownDocTestParser`]: #class-doctest_utils-markdowndoctestparser "Class MarkdownDocTestParser"
-[doctest_utils.MarkdownDocTestParser.parse]: #function-doctest_utils-markdowndoctestparser-parse "Function parse"
-[`doctest_utils.MarkdownDocTestParser.parse`]: #function-doctest_utils-markdowndoctestparser-parse "Function parse"
 [doctest_utils.testmod]: #function-doctest_utils-testmod "Function testmod"
 [`doctest_utils.testmod`]: #function-doctest_utils-testmod "Function testmod"
 [inject_usage]: #module-inject_usage "Module inject_usage"

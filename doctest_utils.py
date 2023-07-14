@@ -11,7 +11,7 @@ testing Markdown texts.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.5.0"
+__version__ = "0.2.0"
 __license__ = "BSD 3-Clause Clear License"
 
 from doctest import DocTestFinder, DocTestParser, DebugRunner, DocTestRunner, TestResults
@@ -22,14 +22,28 @@ import sys
 
 class MarkdownDocTestParser(DocTestParser):
     """A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
-    that removes code blocks from Markdown files before parsing them.
-    
-    This allows to write Markdown files with code blocks that can be tested with
-    [doctest](https://docs.python.org/3/library/doctest.html).
+    that allows use Markdown fences as [doctest](https://docs.python.org/3/library/doctest.html) examples.
+
+    This class just patches the original DocTestParser._EXAMPLE_RE to exclude
+    Markdown fences (```` ``` ```` or `~~~`) from the WANT group.
+
+    **NOTE**: This is much better that just removing the fences from the source.
+    Removing lines from the source will make useless the line numbers in the
+    traceback.
     """
-    def parse(self, string, name='<string>'):
-        string = re.sub(r'^\s*(```|~~~)\s*.*$', '', string, flags=re.MULTILINE)
-        return super().parse(string, name)
+    _EXAMPLE_RE = re.compile(r'''
+        # Source consists of a PS1 line followed by zero or more PS2 lines.
+        (?P<source>
+            (?:^(?P<indent> [ ]*) >>>    .*)    # PS1 line
+            (?:\n           [ ]*  \.\.\. .*)*)  # PS2 lines
+        \n?
+        # Want consists of any non-blank lines that do not start with PS1.
+        (?P<want> (?:(?![ ]*$)          # Not a blank line
+                     (?![ ]*>>>)        # Not a line starting with PS1
+                     (?![ ]*(```|~~~))  # Not a Markdown fence (ADDED LINE)
+                     .+$\n?             # But any other line
+                  )*)
+        ''', re.MULTILINE | re.VERBOSE)
     
 
 def testmod(m=None, name=None, globs=None, verbose=None,
