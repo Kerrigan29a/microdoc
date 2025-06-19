@@ -15,6 +15,6 @@ README.md: README.md.in $(SOURCES)
 		$(PY) inject_usage.py) > README.md
 	( $(PY) py2doc.py $(SOURCES) | \
 		$(PY) doc2md.py -l 2 -u $(URL) ) >> README.md
-	
+
 clean:
 	rm -f README.md *.json

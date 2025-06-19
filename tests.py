@@ -15,6 +15,7 @@ It loads the [doctest](https://docs.python.org/3/library/doctest) and [expose
 them as unittests](https://docs.python.org/3/library/doctest.html#unittest-api).
 """
 
+
 def load_tests(loader, tests, ignore):
     parser = doctest_utils.MarkdownDocTestParser()
     test_finder = doctest.DocTestFinder(parser=parser)

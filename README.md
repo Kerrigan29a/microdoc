@@ -32,10 +32,9 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -o OUTPUT, --output OUTPUT
-                        Output file. If not specified, the output is written
+  -o, --output OUTPUT   Output file. If not specified, the output is written
                         to stdout
-  -e ENCODING, --encoding ENCODING
+  -e, --encoding ENCODING
                         Encoding of the input files
 ```
 
@@ -47,16 +46,13 @@ usage: doc2md.py [-h] [-i INPUT] [-o OUTPUT] [-l LEVEL] [-u URL]
 Generate markdown documentation from JSON
 
 options:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Input file. If not specified, the input is read from
-                        stdin
-  -o OUTPUT, --output OUTPUT
-                        Output file. If not specified, the output is written
-                        to stdout
-  -l LEVEL, --level LEVEL
-                        Start level for the headers
-  -u URL, --url URL     URL template for the links
+  -h, --help           show this help message and exit
+  -i, --input INPUT    Input file. If not specified, the input is read from
+                       stdin
+  -o, --output OUTPUT  Output file. If not specified, the output is written to
+                       stdout
+  -l, --level LEVEL    Start level for the headers
+  -u, --url URL        URL template for the links
 ```
 
 ## md2html
@@ -148,7 +144,7 @@ Format the documentation.
 ```python
 def format_node(node, level, prefix): ...
 ```
-Format a node. 
+Format a node.
 
 #### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L39)
 ```python
@@ -163,7 +159,7 @@ One with the text as the destination, and another with the text surrounded by ba
 ```python
 def escape_markdown(text): ...
 ```
-Escape the markdown characters. 
+Escape the markdown characters.
 
 ### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L62)
 ```python
@@ -174,28 +170,28 @@ Collect the references from the JSON file.
 To compose the link, it uses the standard GitHub approach:
 1. Start with the header text.
 2. Convert all letters to lowercase.
-3. Replace all spaces and non-alphanumeric characters with hyphens.    
+3. Replace all spaces and non-alphanumeric characters with hyphens.
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L85)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L88)
 ```python
 @contextmanager
 def reader(input): ...
 ```
-Open the input file, or stdin if not specified. 
+Open the input file, or stdin if not specified.
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L95)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L98)
 ```python
 @contextmanager
 def writer(output): ...
 ```
-Open the output file, or stdout if not specified. 
+Open the output file, or stdout if not specified.
 
 
 ## Module [doctest\_utils](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L1)
 Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
 testing Markdown texts.
 
-### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L23)
+### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L29)
 A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
 that allows use Markdown fences as [doctest](https://docs.python.org/3/library/doctest.html) examples.
 
@@ -206,7 +202,7 @@ Markdown fences (```` ``` ```` or `~~~`) from the WANT group.
 Removing lines from the source will make useless the line numbers in the
 traceback.
 
-### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L49)
+### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L59)
 ```python
 def testmod(m=None, name=None, globs=None, verbose=None, report=True, optionflags=0, extraglobs=None, raise_on_error=False, exclude_empty=False, parser=DocTestParser()): ...
 ```
@@ -256,7 +252,7 @@ Compose the definition of a function or method from its code.
 @contextmanager
 def writer(output): ...
 ```
-Open a file for writing or use stdout if the output is None. 
+Open a file for writing or use stdout if the output is None.
 
 
 

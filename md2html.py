@@ -18,24 +18,29 @@ import argparse
 def fix_refs(txt):
     def anchor(text):
         return re.sub(r"[^a-zA-Z0-9]+", "-", text.lower())
-    
+
     def fix_headers(m):
         _, text = m.groups()
         # print(f"label: {label:<30}text: {text:<30}")
         return m.expand(rf'<h\1 id="{anchor(text.strip())}">\2</h\1>')
-    txt = re.sub(r'<h(.)>(.*)<\/h.>', fix_headers, txt)
+
+    txt = re.sub(r"<h(.)>(.*)<\/h.>", fix_headers, txt)
 
     def fix_refs(m):
-        comment, text, = m.groups()
+        (
+            comment,
+            text,
+        ) = m.groups()
         # print(f"comment: {comment:<30}text: {text:<30}")
         return m.expand(f'<a href="#{anchor(text.strip())}">{comment}«{text}»</a>')
-        #return m.expand(f'<a href="#{anchor(text.strip())}">{comment}《{text}》</a>')
+        # return m.expand(f'<a href="#{anchor(text.strip())}">{comment}《{text}》</a>')
+
     txt = re.sub(r'<span class="pl-c">(.*)&lt;&lt;(.+)&gt;&gt;</span>', fix_refs, txt)
 
     return txt
 
-def main(args):
 
+def main(args):
     with open(args.input, "r", encoding="utf-8") as f:
         txt = f.read()
 
@@ -100,12 +105,14 @@ def main(args):
         print(e.read().decode())
         return 1
     return 0
-    
+
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Render markdown to html using the GitHub API")
-    parser.add_argument("input", metavar='INPUT_FILE.md', help="Input Markdown file")
-    parser.add_argument("output", metavar='OUTPUT_FILE.html', help="Output HTML file")
+    parser = argparse.ArgumentParser(
+        description="Render markdown to html using the GitHub API"
+    )
+    parser.add_argument("input", metavar="INPUT_FILE.md", help="Input Markdown file")
+    parser.add_argument("output", metavar="OUTPUT_FILE.html", help="Output HTML file")
     return parser.parse_args()
 
 

@@ -14,7 +14,13 @@ __email__ = "kerrigan29a@gmail.com"
 __version__ = "0.2.0"
 __license__ = "BSD 3-Clause Clear License"
 
-from doctest import DocTestFinder, DocTestParser, DebugRunner, DocTestRunner, TestResults
+from doctest import (
+    DocTestFinder,
+    DocTestParser,
+    DebugRunner,
+    DocTestRunner,
+    TestResults,
+)
 import inspect
 import re
 import sys
@@ -31,7 +37,9 @@ class MarkdownDocTestParser(DocTestParser):
     Removing lines from the source will make useless the line numbers in the
     traceback.
     """
-    _EXAMPLE_RE = re.compile(r'''
+
+    _EXAMPLE_RE = re.compile(
+        r"""
         # Source consists of a PS1 line followed by zero or more PS2 lines.
         (?P<source>
             (?:^(?P<indent> [ ]*) >>>    .*)    # PS1 line
@@ -43,25 +51,35 @@ class MarkdownDocTestParser(DocTestParser):
                      (?![ ]*(```|~~~))  # Not a Markdown fence (ADDED LINE)
                      .+$\n?             # But any other line
                   )*)
-        ''', re.MULTILINE | re.VERBOSE)
-    
+        """,
+        re.MULTILINE | re.VERBOSE,
+    )
 
-def testmod(m=None, name=None, globs=None, verbose=None,
-            report=True, optionflags=0, extraglobs=None,
-            raise_on_error=False, exclude_empty=False,
-            parser=DocTestParser()):
-    """ Same as [doctest.testmod](https://docs.python.org/3/library/doctest.html#doctest.testmod)
+
+def testmod(
+    m=None,
+    name=None,
+    globs=None,
+    verbose=None,
+    report=True,
+    optionflags=0,
+    extraglobs=None,
+    raise_on_error=False,
+    exclude_empty=False,
+    parser=DocTestParser(),
+):
+    """Same as [doctest.testmod](https://docs.python.org/3/library/doctest.html#doctest.testmod)
     but allows to specify a custom DocTestParser.
 
     All `master` related code is removed.
     """
-    
+
     # If no module was given, then use __main__.
     if m is None:
         # DWA - m will still be None if this wasn't invoked from the command
         # line, in which case the following TypeError is about as good an error
         # as we should expect
-        m = sys.modules.get('__main__')
+        m = sys.modules.get("__main__")
 
     # Check that we were actually given a module.
     if not inspect.ismodule(m):
