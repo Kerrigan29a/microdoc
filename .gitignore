@@ -10,3 +10,8 @@ __pycache__/
 
 # mypy
 .mypy_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
