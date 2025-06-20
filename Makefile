@@ -1,4 +1,4 @@
-PY = $$(which python3 || which python)
+PYTHON = $$(which python3 || which python)
 URL = "https://github.com/kerrigan29a/microdoc/blob/main/{path}\#L{line}"
 
 SOURCES = $(wildcard microdoc/*.py)
@@ -12,10 +12,8 @@ clean:
 	rm -rf __pycache__ .mypy_cache
 
 test:
-	$(PY) -m unittest discover -v
+	$(PYTHON) -m unittest discover -v
 
 README.md: README.md.in $(SOURCES)
-			 (cat README.md.in | \
-							 PYTHONPATH=. $(PY) -m microdoc.inject_usage) > README.md
-			 ( PYTHONPATH=. $(PY) -m microdoc.py2doc $(SOURCES) | \
-							 PYTHONPATH=. $(PY) -m microdoc.doc2md -l 2 -u $(URL) ) >> README.md
+	cat README.md.in | $(PYTHON) -m microdoc.inject_usage > README.md
+	$(PYTHON) -m microdoc.py2doc $(SOURCES) | $(PYTHON) -m microdoc.doc2md -l 2 -u $(URL) >> README.md
