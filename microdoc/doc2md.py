@@ -14,6 +14,7 @@ import sys
 from contextlib import contextmanager
 from pathlib import Path
 
+
 def format(doc, level, url=None):
     """Format the documentation."""
 

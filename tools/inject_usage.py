@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) Javier Escalada Gómez
@@ -9,15 +10,21 @@ import subprocess
 
 for line in sys.stdin:
     if "{{PY2DOC_USAGE}}" in line:
-        output = subprocess.check_output([sys.executable, "-m", "microdoc.py2doc", "-h"])
+        output = subprocess.check_output(
+            [sys.executable, "-m", "microdoc.py2doc", "-h"]
+        )
         line = line.replace("{{PY2DOC_USAGE}}", output.rstrip().decode("utf-8"))
         line = f"```\n{line}```\n"
     elif "{{DOC2MD_USAGE}}" in line:
-        output = subprocess.check_output([sys.executable, "-m", "microdoc.doc2md", "-h"])
+        output = subprocess.check_output(
+            [sys.executable, "-m", "microdoc.doc2md", "-h"]
+        )
         line = line.replace("{{DOC2MD_USAGE}}", output.rstrip().decode("utf-8"))
         line = f"```\n{line}```\n"
     elif "{{MD2HTML_USAGE}}" in line:
-        output = subprocess.check_output([sys.executable, "-m", "microdoc.md2html", "-h"])
+        output = subprocess.check_output(
+            [sys.executable, "-m", "microdoc.md2html", "-h"]
+        )
         line = line.replace("{{MD2HTML_USAGE}}", output.rstrip().decode("utf-8"))
         line = f"```\n{line}```\n"
     sys.stdout.write(line)

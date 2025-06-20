@@ -9,8 +9,6 @@ Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
 testing Markdown texts.
 """
 
-from ._version import __version__
-
 from doctest import (
     DocTestFinder,
     DocTestParser,
