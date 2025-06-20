@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "microdoc"
-version = "0.5.1"
+dynamic = ["version"]
 description = "A minimalistic documentation generator"
 authors = [
   { name = "Javier Escalada Gómez", email = "kerrigan29a@gmail.com" }
@@ -19,7 +19,10 @@ classifiers = [
 ]
 
 [tool.setuptools]
-py-modules = ["doc2md", "doctest_utils", "inject_usage", "md2html", "py2doc"]
+py-modules = ["doc2md", "doctest_utils", "inject_usage", "md2html", "py2doc", "_version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "_version.__version__"}
 
 [project.scripts]
 py2doc = "py2doc:main"

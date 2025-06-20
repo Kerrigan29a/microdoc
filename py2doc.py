@@ -11,10 +11,7 @@ them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 """
 
-__author__ = "Javier Escalada Gómez"
-__email__ = "kerrigan29a@gmail.com"
-__version__ = "0.5.1"
-__license__ = "BSD 3-Clause Clear License"
+from _version import __version__
 
 import ast
 import sys

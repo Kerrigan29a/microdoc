@@ -9,10 +9,7 @@ Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
 testing Markdown texts.
 """
 
-__author__ = "Javier Escalada Gómez"
-__email__ = "kerrigan29a@gmail.com"
-__version__ = "0.5.1"
-__license__ = "BSD 3-Clause Clear License"
+from _version import __version__
 
 from doctest import (
     DocTestFinder,
