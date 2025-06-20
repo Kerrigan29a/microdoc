@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "*.md.in": "markdown",
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.md.in": "${capture}.md",
+        "*.py": "${capture}.doc, ${capture}.md",
+    },
+    "files.readonlyInclude": {
+        "README.md": true,
+    },
+}

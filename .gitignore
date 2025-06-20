@@ -1,17 +1,12 @@
-# Byte-compiled / optimized / DLL files
+# Python files
 __pycache__/
+.mypy_cache/
 *.py[cod]
 
-# Editors and IDEs
-.vscode
-
-# Mac files
-.DS_Store
-
-# mypy
-.mypy_cache/
-
-# Build artifacts
+# Python build artifacts
 build/
 dist/
 *.egg-info/
+
+# Mac files
+.DS_Store
