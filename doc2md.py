@@ -14,6 +14,7 @@ __version__ = "0.5.1"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
+import sys
 
 
 def format(doc, level, url=None):
@@ -104,10 +105,8 @@ def writer(output):
             yield f
 
 
-if __name__ == "__main__":
-    import sys
+def parse_args(argv=None):
     import argparse
-    import json
     from pathlib import Path
 
     parser = argparse.ArgumentParser(
@@ -128,10 +127,23 @@ if __name__ == "__main__":
         help="Output file. If not specified, the output is written to stdout",
     )
     parser.add_argument(
-        "-l", "--level", type=int, default=1, help="Start level for the headers"
+        "-l",
+        "--level",
+        type=int,
+        default=1,
+        help="Start level for the headers",
     )
     parser.add_argument("-u", "--url", default=None, help="URL template for the links")
-    args = parser.parse_args()
+    return parser.parse_args(argv)
 
+
+def main(argv=None):
+    import json
+
+    args = parse_args(argv)
     with reader(args.input) as r, writer(args.output) as w:
         w.writelines(format(json.load(r), args.level, args.url))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

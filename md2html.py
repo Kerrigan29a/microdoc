@@ -40,7 +40,9 @@ def fix_refs(txt):
     return txt
 
 
-def main(args):
+def main(args=None):
+    if args is None:
+        args = parse_args()
     with open(args.input, "r", encoding="utf-8") as f:
         txt = f.read()
 
@@ -107,14 +109,14 @@ def main(args):
     return 0
 
 
-def parse_args():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(
         description="Render markdown to html using the GitHub API"
     )
     parser.add_argument("input", metavar="INPUT_FILE.md", help="Input Markdown file")
     parser.add_argument("output", metavar="OUTPUT_FILE.html", help="Output HTML file")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 if __name__ == "__main__":
-    exit(main(parse_args()))
+    raise SystemExit(main())

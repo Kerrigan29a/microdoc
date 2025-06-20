@@ -83,9 +83,8 @@ def writer(output):
             yield f
 
 
-if __name__ == "__main__":
+def parse_args(argv=None):
     import argparse
-    import json
     from pathlib import Path
 
     parser = argparse.ArgumentParser(description="Extract docstrings from Python")
@@ -102,9 +101,19 @@ if __name__ == "__main__":
         help="Output file. If not specified, the output is written to stdout",
     )
     parser.add_argument(
-        "-e", "--encoding", default="utf-8", help="Encoding of the input files"
+        "-e",
+        "--encoding",
+        default="utf-8",
+        help="Encoding of the input files",
     )
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    import json
+    from pathlib import Path
+
+    args = parse_args(argv)
 
     doc = {
         "version": __version__,
@@ -124,3 +133,7 @@ if __name__ == "__main__":
 
     with writer(args.output) as f:
         json.dump(doc, f, indent=2)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

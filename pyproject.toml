@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "microdoc"
+version = "0.5.1"
+description = "A minimalistic documentation generator"
+authors = [
+  { name = "Javier Escalada Gómez", email = "kerrigan29a@gmail.com" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent"
+]
+
+[tool.setuptools]
+py-modules = ["doc2md", "doctest_utils", "inject_usage", "md2html", "py2doc"]
+
+[project.scripts]
+py2doc = "py2doc:main"
+doc2md = "doc2md:main"
+md2html = "md2html:main"
