@@ -131,22 +131,27 @@ exit(int(bool(result.failed)))
 ~~~
 
 # Documentation
+## Module [\_\_init\_\_](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/__init__.py#L1)
+Microdoc package exposing the command line tools.
+
+
+
 ## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L1)
 Format the documentation from JSON to markdown.
 
-### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L19)
+### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L17)
 ```python
 def format(doc, level, url=None): ...
 ```
 Format the documentation.
 
-#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L22)
+#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L20)
 ```python
 def format_node(node, level, prefix): ...
 ```
 Format a node.
 
-#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L39)
+#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L37)
 ```python
 def format_refs(refs): ...
 ```
@@ -155,13 +160,13 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L57)
+### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L55)
 ```python
 def escape_markdown(text): ...
 ```
 Escape the markdown characters.
 
-### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L62)
+### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L60)
 ```python
 def collect_refs(node): ...
 ```
@@ -172,14 +177,14 @@ To compose the link, it uses the standard GitHub approach:
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L88)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L86)
 ```python
 @contextmanager
 def reader(input): ...
 ```
 Open the input file, or stdin if not specified.
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L98)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L96)
 ```python
 @contextmanager
 def writer(output): ...
@@ -191,7 +196,7 @@ Open the output file, or stdout if not specified.
 Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
 testing Markdown texts.
 
-### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L29)
+### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L26)
 A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
 that allows use Markdown fences as [doctest](https://docs.python.org/3/library/doctest.html) examples.
 
@@ -202,7 +207,7 @@ Markdown fences (```` ``` ```` or `~~~`) from the WANT group.
 Removing lines from the source will make useless the line numbers in the
 traceback.
 
-### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L59)
+### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L56)
 ```python
 def testmod(m=None, name=None, globs=None, verbose=None, report=True, optionflags=0, extraglobs=None, raise_on_error=False, exclude_empty=False, parser=DocTestParser()): ...
 ```
@@ -223,7 +228,7 @@ This script doesn't care about the format of the docstrings, it just extracts
 them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 
-### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L32)
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L29)
 ```python
 def process_node(node, path): ...
 ```
@@ -232,7 +237,7 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L59)
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L56)
 ```python
 def _compose_definition(code): ...
 ```
@@ -247,7 +252,7 @@ Compose the definition of a function or method from its code.
 'def foo(a : int, b : int) -> int: ...'
 ```
 
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L77)
+### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L74)
 ```python
 @contextmanager
 def writer(output): ...
@@ -255,8 +260,11 @@ def writer(output): ...
 Open a file for writing or use stdout if the output is None.
 
 
-
 <!-- references -->
+[__init__]: #module-__init__ "Module __init__"
+[`__init__`]: #module-__init__ "Module __init__"
+[_version]: #module-_version "Module _version"
+[`_version`]: #module-_version "Module _version"
 [doc2md]: #module-doc2md "Module doc2md"
 [`doc2md`]: #module-doc2md "Module doc2md"
 [doc2md.format]: #function-doc2md-format "Function format"
@@ -305,7 +313,3 @@ Open a file for writing or use stdout if the output is None.
 [`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
 [py2doc.writer]: #function-py2doc-writer "Function writer"
 [`py2doc.writer`]: #function-py2doc-writer "Function writer"
-[tests]: #module-tests "Module tests"
-[`tests`]: #module-tests "Module tests"
-[tests.load_tests]: #function-tests-load_tests "Function load_tests"
-[`tests.load_tests`]: #function-tests-load_tests "Function load_tests"
