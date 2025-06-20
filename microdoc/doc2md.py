@@ -8,7 +8,7 @@
 Format the documentation from JSON to markdown.
 """
 
-from _version import __version__
+from ._version import __version__
 
 from contextlib import contextmanager
 import sys

@@ -11,7 +11,7 @@ them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 """
 
-from _version import __version__
+from ._version import __version__
 
 import ast
 import sys

@@ -6,9 +6,9 @@
 
 import unittest
 import doctest
-import doctest_utils
-import py2doc
-import doc2md
+from microdoc import doctest_utils
+from microdoc import py2doc
+from microdoc import doc2md
 
 """
 It loads the [doctest](https://docs.python.org/3/library/doctest) and [expose

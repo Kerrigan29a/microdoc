@@ -131,22 +131,22 @@ exit(int(bool(result.failed)))
 ~~~
 
 # Documentation
-## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L1)
+## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L1)
 Format the documentation from JSON to markdown.
 
-### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L19)
+### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L19)
 ```python
 def format(doc, level, url=None): ...
 ```
 Format the documentation.
 
-#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L22)
+#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L22)
 ```python
 def format_node(node, level, prefix): ...
 ```
 Format a node.
 
-#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L39)
+#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L39)
 ```python
 def format_refs(refs): ...
 ```
@@ -155,13 +155,13 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L57)
+### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L57)
 ```python
 def escape_markdown(text): ...
 ```
 Escape the markdown characters.
 
-### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L62)
+### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L62)
 ```python
 def collect_refs(node): ...
 ```
@@ -172,14 +172,14 @@ To compose the link, it uses the standard GitHub approach:
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.
 
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L88)
+### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L88)
 ```python
 @contextmanager
 def reader(input): ...
 ```
 Open the input file, or stdin if not specified.
 
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/doc2md.py#L98)
+### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L98)
 ```python
 @contextmanager
 def writer(output): ...
@@ -187,11 +187,11 @@ def writer(output): ...
 Open the output file, or stdout if not specified.
 
 
-## Module [doctest\_utils](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L1)
+## Module [doctest\_utils](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L1)
 Extension of [doctest](https://docs.python.org/3/library/doctest.html) to allow
 testing Markdown texts.
 
-### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L29)
+### Class [doctest\_utils.MarkdownDocTestParser](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L29)
 A [doctest.DocTestParser](https://docs.python.org/3/library/doctest.html#doctest.DocTestParser)
 that allows use Markdown fences as [doctest](https://docs.python.org/3/library/doctest.html) examples.
 
@@ -202,7 +202,7 @@ Markdown fences (```` ``` ```` or `~~~`) from the WANT group.
 Removing lines from the source will make useless the line numbers in the
 traceback.
 
-### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/doctest_utils.py#L59)
+### Function [doctest\_utils.testmod](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L59)
 ```python
 def testmod(m=None, name=None, globs=None, verbose=None, report=True, optionflags=0, extraglobs=None, raise_on_error=False, exclude_empty=False, parser=DocTestParser()): ...
 ```
@@ -213,17 +213,17 @@ All `master` related code is removed.
 
 
 
-## Module [md2html](https://github.com/kerrigan29a/microdoc/blob/main/md2html.py#L1)
+## Module [md2html](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/md2html.py#L1)
 Convert a markdown file to HTML using GitHub API.
 
 
-## Module [py2doc](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L1)
+## Module [py2doc](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L1)
 Extract the docstrings from a Python file and store them in a JSON file.
 This script doesn't care about the format of the docstrings, it just extracts
 them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 
-### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L32)
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L32)
 ```python
 def process_node(node, path): ...
 ```
@@ -232,7 +232,7 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L59)
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L59)
 ```python
 def _compose_definition(code): ...
 ```
@@ -247,7 +247,7 @@ Compose the definition of a function or method from its code.
 'def foo(a : int, b : int) -> int: ...'
 ```
 
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/py2doc.py#L77)
+### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L77)
 ```python
 @contextmanager
 def writer(output): ...
