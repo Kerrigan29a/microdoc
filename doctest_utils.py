@@ -11,7 +11,7 @@ testing Markdown texts.
 
 __author__ = "Javier Escalada Gómez"
 __email__ = "kerrigan29a@gmail.com"
-__version__ = "0.2.0"
+__version__ = "0.5.1"
 __license__ = "BSD 3-Clause Clear License"
 
 from doctest import (

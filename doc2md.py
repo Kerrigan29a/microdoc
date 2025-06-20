@@ -14,6 +14,7 @@ __version__ = "0.5.1"
 __license__ = "BSD 3-Clause Clear License"
 
 from contextlib import contextmanager
+import sys
 
 
 def format(doc, level, url=None):
@@ -105,7 +106,6 @@ def writer(output):
 
 
 if __name__ == "__main__":
-    import sys
     import argparse
     import json
     from pathlib import Path
