@@ -11,12 +11,14 @@ them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 """
 
-from ._version import __version__
-
+import argparse
 import ast
+import json
 import sys
 from contextlib import contextmanager
+from pathlib import Path
 
+from ._version import __version__
 
 NODE_TYPES = {
     ast.Module: "Module",
@@ -79,12 +81,7 @@ def writer(output):
         with open(output, "w", encoding="utf-8") as f:
             yield f
 
-
-if __name__ == "__main__":
-    import argparse
-    import json
-    from pathlib import Path
-
+def parse_args(args=None):
     parser = argparse.ArgumentParser(description="Extract docstrings from Python")
     parser.add_argument(
         "inputs",
@@ -101,8 +98,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "-e", "--encoding", default="utf-8", help="Encoding of the input files"
     )
-    args = parser.parse_args()
+    return parser.parse_args(args)
 
+
+def main(args=None):
+    args = parse_args(args)
     doc = {
         "version": __version__,
         "content": [],
@@ -121,3 +121,8 @@ if __name__ == "__main__":
 
     with writer(args.output) as f:
         json.dump(doc, f, indent=2)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

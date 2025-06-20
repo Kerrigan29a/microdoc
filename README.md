@@ -228,7 +228,7 @@ This script doesn't care about the format of the docstrings, it just extracts
 them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 
-### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L29)
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L31)
 ```python
 def process_node(node, path): ...
 ```
@@ -237,7 +237,7 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L56)
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L58)
 ```python
 def _compose_definition(code): ...
 ```
@@ -252,7 +252,7 @@ Compose the definition of a function or method from its code.
 'def foo(a : int, b : int) -> int: ...'
 ```
 
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L74)
+### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L76)
 ```python
 @contextmanager
 def writer(output): ...
@@ -283,6 +283,10 @@ Open a file for writing or use stdout if the output is None.
 [`doc2md.reader`]: #function-doc2md-reader "Function reader"
 [doc2md.writer]: #function-doc2md-writer "Function writer"
 [`doc2md.writer`]: #function-doc2md-writer "Function writer"
+[doc2md.parse_args]: #function-doc2md-parse_args "Function parse_args"
+[`doc2md.parse_args`]: #function-doc2md-parse_args "Function parse_args"
+[doc2md.main]: #function-doc2md-main "Function main"
+[`doc2md.main`]: #function-doc2md-main "Function main"
 [doctest_utils]: #module-doctest_utils "Module doctest_utils"
 [`doctest_utils`]: #module-doctest_utils "Module doctest_utils"
 [doctest_utils.MarkdownDocTestParser]: #class-doctest_utils-markdowndoctestparser "Class MarkdownDocTestParser"
@@ -301,10 +305,10 @@ Open a file for writing or use stdout if the output is None.
 [`md2html.fix_refs.fix_headers`]: #function-md2html-fix_refs-fix_headers "Function fix_headers"
 [md2html.fix_refs.fix_refs]: #function-md2html-fix_refs-fix_refs "Function fix_refs"
 [`md2html.fix_refs.fix_refs`]: #function-md2html-fix_refs-fix_refs "Function fix_refs"
-[md2html.main]: #function-md2html-main "Function main"
-[`md2html.main`]: #function-md2html-main "Function main"
 [md2html.parse_args]: #function-md2html-parse_args "Function parse_args"
 [`md2html.parse_args`]: #function-md2html-parse_args "Function parse_args"
+[md2html.main]: #function-md2html-main "Function main"
+[`md2html.main`]: #function-md2html-main "Function main"
 [py2doc]: #module-py2doc "Module py2doc"
 [`py2doc`]: #module-py2doc "Module py2doc"
 [py2doc.process_node]: #function-py2doc-process_node "Function process_node"
@@ -313,3 +317,7 @@ Open a file for writing or use stdout if the output is None.
 [`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
 [py2doc.writer]: #function-py2doc-writer "Function writer"
 [`py2doc.writer`]: #function-py2doc-writer "Function writer"
+[py2doc.parse_args]: #function-py2doc-parse_args "Function parse_args"
+[`py2doc.parse_args`]: #function-py2doc-parse_args "Function parse_args"
+[py2doc.main]: #function-py2doc-main "Function main"
+[`py2doc.main`]: #function-py2doc-main "Function main"
