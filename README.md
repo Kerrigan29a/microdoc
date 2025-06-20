@@ -13,8 +13,25 @@ The idea is to divide the process into two steps:
 
    * Every element in the JSON file is a section of the Markdown file. The script formats the heading.
    * For each generated Markdown file, the script injects all known [link destinations](https://spec.commonmark.org/0.30/#link-destination) at the end of the file.
-   
+
    Any additional formatting should be done in the documentation itself.
+
+# Installation
+Supposing you want to install the version `v0.6.2`:
+
+```
+# Using PEP 508 direct URL
+microdoc @ git+https://github.com/kerrigan29a/microdoc.git@v0.6.2
+
+# Or the classic egg syntax (for older pip)
+git+https://github.com/kerrigan29a/microdoc.git@v0.6.2#egg=microdoc
+
+# Or a wheel asset
+https://github.com/kerrigan29a/microdoc/releases/download/v0.6.2/microdoc-0.6.2-py3-none-any.whl
+
+# Or the snapshot tarball
+https://github.com/kerrigan29a/microdoc/archive/refs/tags/v0.6.2.tar.gz
+```
 
 # Command line usage
 

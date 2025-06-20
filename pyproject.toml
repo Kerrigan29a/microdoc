@@ -10,12 +10,17 @@ authors = [
   { name = "Javier Escalada Gómez", email = "kerrigan29a@gmail.com" }
 ]
 license = "BSD-3-Clause-Clear"
+license-files = ["LICEN[CS]E.*"]
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
   "Programming Language :: Python :: 3",
-  "Operating System :: OS Independent"
+  "Operating System :: OS Independent",
+  "Development Status :: 4 - Beta",
 ]
+
+[project.urls]
+Repository = "https://github.com/Kerrigan29a/microdoc"
 
 [tool.setuptools]
 packages = ["microdoc"]

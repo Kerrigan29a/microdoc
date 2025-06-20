@@ -16,14 +16,11 @@ test:
 	$(PYTHON) -m unittest discover -v
 
 README.md: README.md.in $(SOURCES)
-	cat README.md.in | $(PYTHON) tools/inject_usage.py > README.md
+	cat README.md.in | $(PYTHON) tools/replace_vars.py > README.md
 	$(PYTHON) -m microdoc.py2doc $(SOURCES) | $(PYTHON) -m microdoc.doc2md -l 2 -u $(URL) >> README.md
 
 release: all
 	VERSION=$$($(PYTHON) -c 'import microdoc; print(microdoc.__version__)') && \
-	echo "Releasing version $$VERSION" && \
-	git add README.md && \
-	git commit -m "chore: release v$$VERSION" && \
 	git push origin main && \
 	git tag -a v$$VERSION -m "Release v$$VERSION" && \
 	git push origin --tags

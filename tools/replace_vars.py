@@ -7,6 +7,10 @@
 
 import sys
 import subprocess
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from microdoc import __version__
+
 
 for line in sys.stdin:
     if "{{PY2DOC_USAGE}}" in line:
@@ -27,4 +31,6 @@ for line in sys.stdin:
         )
         line = line.replace("{{MD2HTML_USAGE}}", output.rstrip().decode("utf-8"))
         line = f"```\n{line}```\n"
+    elif "{{VERSION}}" in line:
+        line = line.replace("{{VERSION}}", __version__)
     sys.stdout.write(line)
