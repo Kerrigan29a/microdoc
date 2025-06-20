@@ -139,19 +139,19 @@ Microdoc package exposing the command line tools.
 ## Module [doc2md](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L1)
 Format the documentation from JSON to markdown.
 
-### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L18)
+### Function [doc2md.format](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L19)
 ```python
 def format(doc, level, url=None): ...
 ```
 Format the documentation.
 
-#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L21)
+#### Function [doc2md.format.format\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L22)
 ```python
 def format_node(node, level, prefix): ...
 ```
 Format a node.
 
-#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L38)
+#### Function [doc2md.format.format\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L39)
 ```python
 def format_refs(refs): ...
 ```
@@ -160,13 +160,13 @@ Format the references.
 It generates two destination link for every element in the JSON file.
 One with the text as the destination, and another with the text surrounded by backticks.
 
-### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L56)
+### Function [doc2md.escape\_markdown](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L57)
 ```python
 def escape_markdown(text): ...
 ```
 Escape the markdown characters.
 
-### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L61)
+### Function [doc2md.collect\_refs](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L62)
 ```python
 def collect_refs(node): ...
 ```
@@ -176,20 +176,6 @@ To compose the link, it uses the standard GitHub approach:
 1. Start with the header text.
 2. Convert all letters to lowercase.
 3. Replace all spaces and non-alphanumeric characters with hyphens.
-
-### Function [doc2md.reader](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L87)
-```python
-@contextmanager
-def reader(input): ...
-```
-Open the input file, or stdin if not specified.
-
-### Function [doc2md.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doc2md.py#L97)
-```python
-@contextmanager
-def writer(output): ...
-```
-Open the output file, or stdout if not specified.
 
 
 ## Module [doctest\_utils](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/doctest_utils.py#L1)
@@ -227,7 +213,7 @@ This script doesn't care about the format of the docstrings, it just extracts
 them. The only exception to this rule is when it finds a doctest, in which case
 it labels this code snippet as Python code.
 
-### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L31)
+### Function [py2doc.process\_node](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L32)
 ```python
 def process_node(node, path): ...
 ```
@@ -236,7 +222,7 @@ Extract the information from an AST node.
 If the docstring contains doctests, the docstring is split into chunks.
 The doctests are labeled as Python code, and the rest of the docstring is labeled as text.
 
-### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L58)
+### Function [py2doc.\_compose\_definition](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L59)
 ```python
 def _compose_definition(code): ...
 ```
@@ -251,12 +237,6 @@ Compose the definition of a function or method from its code.
 'def foo(a : int, b : int) -> int: ...'
 ```
 
-### Function [py2doc.writer](https://github.com/kerrigan29a/microdoc/blob/main/microdoc/py2doc.py#L76)
-```python
-@contextmanager
-def writer(output): ...
-```
-Open a file for writing or use stdout if the output is None.
 
 
 <!-- references -->
@@ -278,10 +258,6 @@ Open a file for writing or use stdout if the output is None.
 [`doc2md.collect_refs`]: #function-doc2md-collect_refs "Function collect_refs"
 [doc2md.collect_refs.collect]: #function-doc2md-collect_refs-collect "Function collect"
 [`doc2md.collect_refs.collect`]: #function-doc2md-collect_refs-collect "Function collect"
-[doc2md.reader]: #function-doc2md-reader "Function reader"
-[`doc2md.reader`]: #function-doc2md-reader "Function reader"
-[doc2md.writer]: #function-doc2md-writer "Function writer"
-[`doc2md.writer`]: #function-doc2md-writer "Function writer"
 [doc2md.parse_args]: #function-doc2md-parse_args "Function parse_args"
 [`doc2md.parse_args`]: #function-doc2md-parse_args "Function parse_args"
 [doc2md.main]: #function-doc2md-main "Function main"
@@ -312,9 +288,13 @@ Open a file for writing or use stdout if the output is None.
 [`py2doc.process_node`]: #function-py2doc-process_node "Function process_node"
 [py2doc._compose_definition]: #function-py2doc-_compose_definition "Function _compose_definition"
 [`py2doc._compose_definition`]: #function-py2doc-_compose_definition "Function _compose_definition"
-[py2doc.writer]: #function-py2doc-writer "Function writer"
-[`py2doc.writer`]: #function-py2doc-writer "Function writer"
 [py2doc.parse_args]: #function-py2doc-parse_args "Function parse_args"
 [`py2doc.parse_args`]: #function-py2doc-parse_args "Function parse_args"
 [py2doc.main]: #function-py2doc-main "Function main"
 [`py2doc.main`]: #function-py2doc-main "Function main"
+[utils]: #module-utils "Module utils"
+[`utils`]: #module-utils "Module utils"
+[utils.reader]: #function-utils-reader "Function reader"
+[`utils.reader`]: #function-utils-reader "Function reader"
+[utils.writer]: #function-utils-writer "Function writer"
+[`utils.writer`]: #function-utils-writer "Function writer"

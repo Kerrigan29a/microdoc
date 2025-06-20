@@ -11,8 +11,9 @@ Format the documentation from JSON to markdown.
 import argparse
 import json
 import sys
-from contextlib import contextmanager
 from pathlib import Path
+
+from .utils import reader, writer
 
 
 def format(doc, level, url=None):
@@ -81,26 +82,6 @@ def collect_refs(node):
     for node in node["content"]:
         collect(node, refs, "")
     return refs
-
-
-@contextmanager
-def reader(input):
-    """Open the input file, or stdin if not specified."""
-    if input is None:
-        yield sys.stdin
-    else:
-        with input.open("r") as f:
-            yield f
-
-
-@contextmanager
-def writer(output):
-    """Open the output file, or stdout if not specified."""
-    if output is None:
-        yield sys.stdout
-    else:
-        with output.open("w") as f:
-            yield f
 
 
 def parse_args(args=None):

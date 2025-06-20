@@ -15,8 +15,9 @@ import argparse
 import ast
 import json
 import sys
-from contextlib import contextmanager
 from pathlib import Path
+
+from .utils import writer
 
 from ._version import __version__
 
@@ -72,15 +73,6 @@ def _compose_definition(code):
     return code[: stop + 1].rstrip() + " ..."
 
 
-@contextmanager
-def writer(output):
-    """Open a file for writing or use stdout if the output is None."""
-    if output is None:
-        yield sys.stdout
-    else:
-        with open(output, "w", encoding="utf-8") as f:
-            yield f
-
 def parse_args(args=None):
     parser = argparse.ArgumentParser(description="Extract docstrings from Python")
     parser.add_argument(
@@ -119,8 +111,8 @@ def main(args=None):
             node["name"] = module_name
             doc["content"].append(node)  # type: ignore
 
-    with writer(args.output) as f:
-        json.dump(doc, f, indent=2)
+    with writer(args.output) as w:
+        json.dump(doc, w, indent=2)
     return 0
 
 
