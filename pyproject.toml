@@ -18,12 +18,12 @@ classifiers = [
 ]
 
 [tool.setuptools]
-py-modules = ["doc2md", "doctest_utils", "inject_usage", "md2html", "py2doc", "_version"]
+packages = ["microdoc"]
 
 [tool.setuptools.dynamic]
-version = {attr = "_version.__version__"}
+version = {attr = "microdoc._version.__version__"}
 
 [project.scripts]
-py2doc = "py2doc:main"
-doc2md = "doc2md:main"
-md2html = "md2html:main"
+py2doc = "microdoc.py2doc:main"
+doc2md = "microdoc.doc2md:main"
+md2html = "microdoc.md2html:main"

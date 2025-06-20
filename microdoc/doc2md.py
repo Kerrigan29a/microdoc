@@ -8,11 +8,11 @@
 Format the documentation from JSON to markdown.
 """
 
-from _version import __version__
-
-from contextlib import contextmanager
+import argparse
+import json
 import sys
-
+from contextlib import contextmanager
+from pathlib import Path
 
 def format(doc, level, url=None):
     """Format the documentation."""
@@ -102,11 +102,7 @@ def writer(output):
             yield f
 
 
-if __name__ == "__main__":
-    import argparse
-    import json
-    from pathlib import Path
-
+def parse_args(args=None):
     parser = argparse.ArgumentParser(
         description="Generate markdown documentation from JSON"
     )
@@ -128,7 +124,15 @@ if __name__ == "__main__":
         "-l", "--level", type=int, default=1, help="Start level for the headers"
     )
     parser.add_argument("-u", "--url", default=None, help="URL template for the links")
-    args = parser.parse_args()
+    return parser.parse_args(args)
 
+
+def main(args=None):
+    args = parse_args(args)
     with reader(args.input) as r, writer(args.output) as w:
         w.writelines(format(json.load(r), args.level, args.url))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
