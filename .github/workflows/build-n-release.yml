@@ -1,4 +1,4 @@
-name: Build and Upload Wheel
+name: Build and release
 
 on:
   push:
@@ -6,6 +6,10 @@ on:
       - 'v*.*.*'
   release:
     types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -19,6 +23,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+          cache: 'pip'
 
       - name: Install build dependencies
         run: |
@@ -26,13 +31,13 @@ jobs:
           pip install build setuptools wheel
 
       - name: Build wheel
-        run: python -m build --wheel --no-isolation
+        run: python -m build --sdist --wheel --no-isolation
 
-      - name: Upload wheel as artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-wheel
-          path: dist/*.whl
+          name: artifacts
+          path: dist/*
 
   release:
     needs: build
@@ -41,14 +46,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download wheel artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist-wheel
+          name: artifacts
           path: dist/
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.whl
+          files: dist/*
           generate_release_notes: true
