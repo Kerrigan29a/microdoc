@@ -17,20 +17,31 @@ The idea is to divide the process into two steps:
    Any additional formatting should be done in the documentation itself.
 
 # Installation
-Supposing you want to install the version `v{{VERSION}}`:
+Supposing you want to install the version `v{{VERSION}}`. You have several options:
 
+- Using PEP 508 direct URL:
+```bash
+python -m pip install "microdoc @ git+https://github.com/kerrigan29a/microdoc.git@v{{VERSION}}"
 ```
-# Using PEP 508 direct URL
-microdoc @ git+https://github.com/kerrigan29a/microdoc.git@v{{VERSION}}
 
-# Or the classic egg syntax (for older pip)
-git+https://github.com/kerrigan29a/microdoc.git@v{{VERSION}}#egg=microdoc
+- Using the classic egg syntax (for older pip):
+```bash
+python -m pip install git+https://github.com/kerrigan29a/microdoc.git@v{{VERSION}}#egg=microdoc
+```
 
-# Or a wheel asset
-https://github.com/kerrigan29a/microdoc/releases/download/v{{VERSION}}/microdoc-{{VERSION}}-py3-none-any.whl
+- Using a wheel artifact:
+```bash
+python -m pip install https://github.com/kerrigan29a/microdoc/releases/download/v{{VERSION}}/microdoc-{{VERSION}}-py3-none-any.whl
+```
 
-# Or the snapshot tarball
-https://github.com/kerrigan29a/microdoc/archive/refs/tags/v{{VERSION}}.tar.gz
+- Using the sdist artifact:
+```bash
+python -m pip install https://github.com/Kerrigan29a/microdoc/releases/download/v{{VERSION}}/microdoc-{{VERSION}}.tar.gz
+```
+
+- Using the snapshot tarball:
+```bash
+python -m pip install https://github.com/kerrigan29a/microdoc/archive/refs/tags/v{{VERSION}}.tar.gz
 ```
 
 # Command line usage
