@@ -17,20 +17,20 @@ The idea is to divide the process into two steps:
    Any additional formatting should be done in the documentation itself.
 
 # Installation
-Supposing you want to install the version `v0.6.2`:
+Supposing you want to install the version `v0.6.3`:
 
 ```
 # Using PEP 508 direct URL
-microdoc @ git+https://github.com/kerrigan29a/microdoc.git@v0.6.2
+microdoc @ git+https://github.com/kerrigan29a/microdoc.git@v0.6.3
 
 # Or the classic egg syntax (for older pip)
-git+https://github.com/kerrigan29a/microdoc.git@v0.6.2#egg=microdoc
+git+https://github.com/kerrigan29a/microdoc.git@v0.6.3#egg=microdoc
 
 # Or a wheel asset
-https://github.com/kerrigan29a/microdoc/releases/download/v0.6.2/microdoc-0.6.2-py3-none-any.whl
+https://github.com/kerrigan29a/microdoc/releases/download/v0.6.3/microdoc-0.6.3-py3-none-any.whl
 
 # Or the snapshot tarball
-https://github.com/kerrigan29a/microdoc/archive/refs/tags/v0.6.2.tar.gz
+https://github.com/kerrigan29a/microdoc/archive/refs/tags/v0.6.3.tar.gz
 ```
 
 # Command line usage
